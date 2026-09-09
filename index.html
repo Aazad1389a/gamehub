@@ -10,58 +10,107 @@
 
   <header class="hero">
     <h1>دنیای بازی‌ها</h1>
-    <p>جدیدترین بازی‌های روز دنیا را پیدا کن</p>
+    <p>جدیدترین بازی‌های روز دنیا را پیدا و دانلود کنید</p>
     <div class="search-box">
-      <input type="text" id="searchInput" onkeyup="searchGame()" placeholder="نام بازی را جستجو کنید...">
+      <input type="text" id="searchInput" onkeyup="filterGames()" placeholder="نام بازی را جستجو کنید...">
     </div>
   </header>
 
   <main class="container">
-    <h2>جدیدترین بازی‌ها 🔥</h2>
     
-    <div class="games-grid" id="gamesGrid">
-      
-      <!-- کارت بازی ۱ -->
-      <div class="card" data-title="assassin's creed اساسین کرید">
-        <div class="icon">⚔️</div>
-        <h3>Assassin's Creed</h3>
-        <span class="platform">PC • Console</span>
-        <a href="game-details.html?game=ac" class="btn">مشاهده بازی</a>
-      </div>
-
-      <!-- کارت بازی ۲ -->
-      <div class="card" data-title="grand theft auto vi gta 6 جی تی ای">
-        <div class="icon">🏎️</div>
-        <h3>Grand Theft Auto VI</h3>
-        <span class="platform">PC • Console</span>
-        <a href="game-details.html?game=gta6" class="btn">مشاهده بازی</a>
-      </div>
-
-      <!-- کارت بازی ۳ -->
-      <div class="card" data-title="blood strike بلاد استرایک">
-        <div class="icon">🎯</div>
-        <h3>Blood Strike</h3>
-        <span class="platform">PC • Android</span>
-        <a href="game-details.html?game=bloodstrike" class="btn">مشاهده بازی</a>
-      </div>
-
+    <div class="categories">
+      <button class="cat-btn active" onclick="setCategory('all', this)">همه بازی‌ها</button>
+      <button class="cat-btn" onclick="setCategory('shooter', this)">شوتر و بتل رویال</button>
+      <button class="cat-btn" onclick="setCategory('action', this)">اکشن و جهان باز</button>
+      <button class="cat-btn" onclick="setCategory('strategy', this)">استراتژیک و بقا</button>
+      <button class="cat-btn" onclick="setCategory('rpg', this)">نقش‌آفرینی (RPG)</button>
+      <button class="cat-btn" onclick="setCategory('sports', this)">ورزشی و مسابقه‌ای</button>
     </div>
+
+    <div class="games-grid" id="gamesGrid"></div>
+
+    <div class="pagination" id="pagination"></div>
+
   </main>
 
+  <script src="games.js"></script>
   <script>
-    function searchGame() {
-      let input = document.getElementById('searchInput').value.toLowerCase();
-      let cards = document.getElementsByClassName('card');
-      
-      for (let i = 0; i < cards.length; i++) {
-        let title = cards[i].getAttribute('data-title');
-        if (title.includes(input)) {
-          cards[i].style.display = "flex";
-        } else {
-          cards[i].style.display = "none";
-        }
+    let currentCategory = 'all';
+    let currentPage = 1;
+    const itemsPerPage = 12;
+
+    function renderGames() {
+      const grid = document.getElementById('gamesGrid');
+      grid.innerHTML = '';
+
+      const searchInput = document.getElementById('searchInput').value.toLowerCase();
+
+      let filtered = gamesDatabase.filter(game => {
+        const matchesCategory = (currentCategory === 'all' || game.genre === currentCategory);
+        const matchesSearch = game.title.toLowerCase().includes(searchInput);
+        return matchesCategory && matchesSearch;
+      });
+
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const paginatedGames = filtered.slice(startIndex, startIndex + itemsPerPage);
+
+      if (paginatedGames.length === 0) {
+        grid.innerHTML = '<p class="no-result">هیچ بازی یافت نشد!</p>';
+        document.getElementById('pagination').innerHTML = '';
+        return;
+      }
+
+      paginatedGames.forEach(game => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="card-img-wrapper">
+            <img src="${game.img}" alt="${game.title}" class="game-img" loading="lazy">
+          </div>
+          <h3>${game.title}</h3>
+          <span class="platform">${game.platform}</span>
+          <a href="game-details.html?id=${game.id}" class="btn">مشاهده و دانلود</a>
+        `;
+        grid.appendChild(card);
+      });
+
+      setupPagination(filtered.length);
+    }
+
+    function setupPagination(totalItems) {
+      const paginationContainer = document.getElementById('pagination');
+      paginationContainer.innerHTML = '';
+      const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+      if (totalPages <= 1) return;
+
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement('button');
+        btn.innerText = i;
+        btn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
+        btn.onclick = () => {
+          currentPage = i;
+          renderGames();
+          window.scrollTo({ top: 300, behavior: 'smooth' });
+        };
+        paginationContainer.appendChild(btn);
       }
     }
+
+    function setCategory(cat, btn) {
+      currentCategory = cat;
+      currentPage = 1;
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderGames();
+    }
+
+    function filterGames() {
+      currentPage = 1;
+      renderGames();
+    }
+
+    renderGames();
   </script>
 </body>
 </html>
