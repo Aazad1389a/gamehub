@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>جزئیات بازی | GameHub</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <main class="container details-page">
+    <a href="index.html" class="back-btn">← بازگشت به صفحه اصلی</a>
+    
+    <div class="details-card">
+      <div class="big-icon" id="gameIcon">🎮</div>
+      <h1 id="gameTitle">در حال بارگذاری...</h1>
+      <p id="gamePlatform" class="platform"></p>
+      <p id="gameDesc" class="desc"></p>
+
+      <div class="action-buttons">
+        <a id="googleLink" href="#" target="_blank" class="btn google-btn">جستجو در گوگل 🔍</a>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const gamesData = {
+      'ac': {
+        title: "Assassin's Creed",
+        platform: "PC • Console",
+        icon: "⚔️",
+        desc: "یکی از محبوب‌ترین سری بازی‌های اکشن و ماجراجویی مخفی‌کاری در تاریخ بازی‌های ویدئویی."
+      },
+      'gta6': {
+        title: "Grand Theft Auto VI",
+        platform: "PC • Console",
+        icon: "🏎️",
+        desc: "جدیدترین نسخه از جهان‌بازترین و پرطرفدارترین بازی راک‌استار در شهر وایس سیتی."
+      },
+      'bloodstrike': {
+        title: "Blood Strike",
+        platform: "PC • Android",
+        icon: "🎯",
+        desc: "بازی بتل رویال سریع و بهینه‌شده برای موبایل و کامپیوتر با اکشن فوق‌العاده."
+      }
+    };
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const gameKey = urlParams.get('game');
+
+    if (gameKey && gamesData[gameKey]) {
+      const game = gamesData[gameKey];
+      document.getElementById('gameTitle').innerText = game.title;
+      document.getElementById('gamePlatform').innerText = game.platform;
+      document.getElementById('gameIcon').innerText = game.icon;
+      document.getElementById('gameDesc').innerText = game.desc;
+      document.getElementById('googleLink').href = `https://www.google.com/search?q=${encodeURIComponent(game.title)}`;
+    } else {
+      document.getElementById('gameTitle').innerText = "بازی یافت نشد!";
+    }
+  </script>
+</body>
+</html>
