@@ -20,6 +20,7 @@
       <p id="gameDesc" class="desc"></p>
 
       <div class="action-buttons">
+        <a id="irDownloadLink" href="#" target="_blank" class="btn ir-btn">دانلود مستقیم از سایت ایرانی 📥</a>
         <a id="steamLink" href="#" target="_blank" class="btn steam-btn">مشاهده در استیم (Steam) 🎮</a>
         <a id="directSteam" href="#" class="btn direct-btn">نصب مستقیم در نرم‌افزار استیم 🚀</a>
         <a id="googleImagesLink" href="#" target="_blank" class="btn google-img-btn">جستجوی تصاویر بیشتر در گوگل 🖼️</a>
@@ -40,6 +41,16 @@
       document.getElementById('gameImg').src = game.img;
       document.getElementById('gameDesc').innerText = game.desc;
       
+      // دانلود از سایت ایرانی
+      const irBtn = document.getElementById('irDownloadLink');
+      if (game.irDownloadLink) {
+        irBtn.href = game.irDownloadLink;
+        irBtn.innerText = `دانلود مستقیم (${game.irSiteName || 'سایت ایرانی'}) 📥`;
+      } else {
+        irBtn.style.display = 'none';
+      }
+
+      // لینک استیم و گوگل
       document.getElementById('steamLink').href = `https://store.steampowered.com/app/${game.steamId}/`;
       document.getElementById('directSteam').href = `steam://store/${game.steamId}`;
       document.getElementById('googleImagesLink').href = `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(game.title + ' wallpaper PC')}`;
