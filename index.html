@@ -1,205 +1,67 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GameHub | دنیای بازی</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: #0b0f19;
-            color: white;
-        }
-
-        header {
-            background: #111827;
-            padding: 20px 8%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #263044;
-        }
-
-        .logo {
-            font-size: 28px;
-            font-weight: bold;
-            color: #00d4ff;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-right: 20px;
-        }
-
-        nav a:hover {
-            color: #00d4ff;
-        }
-
-        .hero {
-            padding: 80px 8%;
-            text-align: center;
-            background: linear-gradient(135deg, #111827, #172554);
-        }
-
-        .hero h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-        }
-
-        .hero p {
-            color: #b8c1d1;
-            font-size: 18px;
-            margin-bottom: 30px;
-        }
-
-        .search {
-            width: 80%;
-            max-width: 600px;
-            padding: 16px;
-            border-radius: 10px;
-            border: none;
-            font-size: 16px;
-            text-align: right;
-        }
-
-        .section {
-            padding: 50px 8%;
-        }
-
-        .section h2 {
-            margin-bottom: 30px;
-            color: #00d4ff;
-        }
-
-        .games {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 25px;
-        }
-
-        .game {
-            background: #151c2c;
-            border-radius: 12px;
-            padding: 25px;
-            text-align: center;
-            border: 1px solid #263044;
-            transition: 0.3s;
-        }
-
-        .game:hover {
-            transform: translateY(-5px);
-            border-color: #00d4ff;
-        }
-
-        .game-icon {
-            font-size: 60px;
-            margin-bottom: 15px;
-        }
-
-        .game h3 {
-            margin-bottom: 10px;
-        }
-
-        .game p {
-            color: #9ca8ba;
-            margin-bottom: 15px;
-        }
-
-        .button {
-            display: inline-block;
-            background: #00d4ff;
-            color: #071019;
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        footer {
-            text-align: center;
-            padding: 30px;
-            background: #111827;
-            color: #8792a5;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>دنیای بازی‌ها | GameHub</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<header>
-    <div class="logo">🎮 GameHub</div>
-
-    <nav>
-        <a href="#">خانه</a>
-        <a href="#games">بازی‌ها</a>
-        <a href="#">PC</a>
-        <a href="#">Android</a>
-    </nav>
-</header>
-
-<section class="hero">
+  <header class="hero">
     <h1>دنیای بازی‌ها</h1>
+    <p>جدیدترین بازی‌های روز دنیا را پیدا کن</p>
+    <div class="search-box">
+      <input type="text" id="searchInput" onkeyup="searchGame()" placeholder="نام بازی را جستجو کنید...">
+    </div>
+  </header>
 
-    <p>
-        جدیدترین بازی‌های روز دنیا را پیدا کن
-    </p>
+  <main class="container">
+    <h2>جدیدترین بازی‌ها 🔥</h2>
+    
+    <div class="games-grid" id="gamesGrid">
+      
+      <!-- کارت بازی ۱ -->
+      <div class="card" data-title="assassin's creed اساسین کرید">
+        <div class="icon">⚔️</div>
+        <h3>Assassin's Creed</h3>
+        <span class="platform">PC • Console</span>
+        <a href="game-details.html?game=ac" class="btn">مشاهده بازی</a>
+      </div>
 
-    <input
-        class="search"
-        type="text"
-        placeholder="نام بازی را جستجو کنید..."
-    >
-</section>
+      <!-- کارت بازی ۲ -->
+      <div class="card" data-title="grand theft auto vi gta 6 جی تی ای">
+        <div class="icon">🏎️</div>
+        <h3>Grand Theft Auto VI</h3>
+        <span class="platform">PC • Console</span>
+        <a href="game-details.html?game=gta6" class="btn">مشاهده بازی</a>
+      </div>
 
-<section class="section" id="games">
-
-    <h2>🔥 جدیدترین بازی‌ها</h2>
-
-    <div class="games">
-
-        <div class="game">
-            <div class="game-icon">🎯</div>
-            <h3>Blood Strike</h3>
-            <p>PC • Android</p>
-            <a class="button" href="#">مشاهده بازی</a>
-        </div>
-
-        <div class="game">
-            <div class="game-icon">🚗</div>
-            <h3>Grand Theft Auto VI</h3>
-            <p>PC • Console</p>
-            <a class="button" href="#">مشاهده بازی</a>
-        </div>
-
-        <div class="game">
-            <div class="game-icon">⚔️</div>
-            <h3>Assassin's Creed</h3>
-            <p>PC • Console</p>
-            <a class="button" href="#">مشاهده بازی</a>
-        </div>
-
-        <div class="game">
-            <div class="game-icon">🏆</div>
-            <h3>FC</h3>
-            <p>PC • Console</p>
-            <a class="button" href="#">مشاهده بازی</a>
-        </div>
+      <!-- کارت بازی ۳ -->
+      <div class="card" data-title="blood strike بلاد استرایک">
+        <div class="icon">🎯</div>
+        <h3>Blood Strike</h3>
+        <span class="platform">PC • Android</span>
+        <a href="game-details.html?game=bloodstrike" class="btn">مشاهده بازی</a>
+      </div>
 
     </div>
+  </main>
 
-</section>
-
-<footer>
-    © 2026 GameHub — تمامی حقوق محفوظ است
-</footer>
-
+  <script>
+    function searchGame() {
+      let input = document.getElementById('searchInput').value.toLowerCase();
+      let cards = document.getElementsByClassName('card');
+      
+      for (let i = 0; i < cards.length; i++) {
+        let title = cards[i].getAttribute('data-title');
+        if (title.includes(input)) {
+          cards[i].style.display = "flex";
+        } else {
+          cards[i].style.display = "none";
+        }
+      }
+    }
+  </script>
 </body>
 </html>
