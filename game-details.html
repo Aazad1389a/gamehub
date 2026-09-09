@@ -3,60 +3,114 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>دانلود بازی | GameHub</title>
+  <title>دنیای ۱۲۰ بازی برتر | GameHub</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <main class="container details-page">
-    <a href="index.html" class="back-btn">← بازگشت به صفحه اصلی</a>
-    
-    <div class="details-card">
-      <div class="banner-wrapper">
-        <img id="gameImg" src="" alt="Game Banner" class="detail-banner">
-      </div>
-      <h1 id="gameTitle">در حال بارگذاری...</h1>
-      <p id="gamePlatform" class="platform"></p>
-      <p id="gameDesc" class="desc"></p>
-
-      <div class="action-buttons">
-        <a id="irDownloadLink" href="#" target="_blank" class="btn ir-btn">دانلود مستقیم از سایت ایرانی 📥</a>
-        <a id="steamLink" href="#" target="_blank" class="btn steam-btn">مشاهده در استیم (Steam) 🎮</a>
-        <a id="directSteam" href="#" class="btn direct-btn">نصب مستقیم در نرم‌افزار استیم 🚀</a>
-        <a id="googleImagesLink" href="#" target="_blank" class="btn google-img-btn">جستجوی تصاویر بیشتر در گوگل 🖼️</a>
-      </div>
+  <header class="hero">
+    <h1>دنیای بازی‌ها (۱۲۰ بازی برتر)</h1>
+    <p>جدیدترین بازی‌های رایگان، آنلاین، ترند و داستانی روز دنیا</p>
+    <div class="search-box">
+      <input type="text" id="searchInput" onkeyup="filterGames()" placeholder="نام بازی مورد نظر را تایپ کنید...">
     </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="categories">
+      <button class="cat-btn active" onclick="setCategory('all', this)">همه بازی‌ها</button>
+      <button class="cat-btn" onclick="setCategory('shooter', this)">شوتر و بتل رویال</button>
+      <button class="cat-btn" onclick="setCategory('action', this)">اکشن و جهان باز</button>
+      <button class="cat-btn" onclick="setCategory('strategy', this)">استراتژیک و بقا</button>
+      <button class="cat-btn" onclick="setCategory('rpg', this)">نقش‌آفرینی (RPG)</button>
+      <button class="cat-btn" onclick="setCategory('sports', this)">ورزشی و مسابقه‌ای</button>
+    </div>
+
+    <div class="games-grid" id="gamesGrid"></div>
+
+    <div class="pagination" id="pagination"></div>
+
   </main>
 
   <script src="games.js"></script>
   <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const gameId = urlParams.get('id');
+    let currentCategory = 'all';
+    let currentPage = 1;
+    const itemsPerPage = 4; // هر صفحه ۴ بازی قرار می‌گیرد تا کلا ۳۰ صفحه بسازد
 
-    const game = gamesDatabase.find(g => g.id === gameId);
+    function renderGames() {
+      const grid = document.getElementById('gamesGrid');
+      grid.innerHTML = '';
 
-    if (game) {
-      document.getElementById('gameTitle').innerText = game.title;
-      document.getElementById('gamePlatform').innerText = game.platform;
-      document.getElementById('gameImg').src = game.img;
-      document.getElementById('gameDesc').innerText = game.desc;
-      
-      // دانلود از سایت ایرانی
-      const irBtn = document.getElementById('irDownloadLink');
-      if (game.irDownloadLink) {
-        irBtn.href = game.irDownloadLink;
-        irBtn.innerText = `دانلود مستقیم (${game.irSiteName || 'سایت ایرانی'}) 📥`;
-      } else {
-        irBtn.style.display = 'none';
+      const searchInput = document.getElementById('searchInput').value.toLowerCase();
+
+      let filtered = gamesDatabase.filter(game => {
+        const matchesCategory = (currentCategory === 'all' || game.genre === currentCategory);
+        const matchesSearch = game.title.toLowerCase().includes(searchInput);
+        return matchesCategory && matchesSearch;
+      });
+
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const paginatedGames = filtered.slice(startIndex, startIndex + itemsPerPage);
+
+      if (paginatedGames.length === 0) {
+        grid.innerHTML = '<p class="no-result">هیچ بازی یافت نشد!</p>';
+        document.getElementById('pagination').innerHTML = '';
+        return;
       }
 
-      // لینک استیم و گوگل
-      document.getElementById('steamLink').href = `https://store.steampowered.com/app/${game.steamId}/`;
-      document.getElementById('directSteam').href = `steam://store/${game.steamId}`;
-      document.getElementById('googleImagesLink').href = `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(game.title + ' wallpaper PC')}`;
-    } else {
-      document.getElementById('gameTitle').innerText = "بازی یافت نشد!";
+      paginatedGames.forEach(game => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="card-img-wrapper">
+            <img src="${game.img}" alt="${game.title}" class="game-img" loading="lazy">
+          </div>
+          <h3>${game.title}</h3>
+          <span class="platform">${game.platform}</span>
+          <a href="game-details.html?id=${game.id}" class="btn">مشاهده و دانلود</a>
+        `;
+        grid.appendChild(card);
+      });
+
+      setupPagination(filtered.length);
     }
+
+    function setupPagination(totalItems) {
+      const paginationContainer = document.getElementById('pagination');
+      paginationContainer.innerHTML = '';
+      const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+      if (totalPages <= 1) return;
+
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement('button');
+        btn.innerText = i;
+        btn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
+        btn.onclick = () => {
+          currentPage = i;
+          renderGames();
+          window.scrollTo({ top: 250, behavior: 'smooth' });
+        };
+        paginationContainer.appendChild(btn);
+      }
+    }
+
+    function setCategory(cat, btn) {
+      currentCategory = cat;
+      currentPage = 1;
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderGames();
+    }
+
+    function filterGames() {
+      currentPage = 1;
+      renderGames();
+    }
+
+    renderGames();
   </script>
 </body>
 </html>
