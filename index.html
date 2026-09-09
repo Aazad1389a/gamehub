@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>دنیای بازی‌ها | GameHub</title>
+  <title>دنیای ۱۲۰ بازی برتر | GameHub</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <header class="hero">
-    <h1>دنیای بازی‌ها</h1>
-    <p>جدیدترین بازی‌های روز دنیا را پیدا و دانلود کنید</p>
+    <h1>دنیای بازی‌ها (۱۲۰ بازی برتر)</h1>
+    <p>جدیدترین بازی‌های رایگان، آنلاین، ترند و داستانی روز دنیا</p>
     <div class="search-box">
-      <input type="text" id="searchInput" onkeyup="filterGames()" placeholder="نام بازی را جستجو کنید...">
+      <input type="text" id="searchInput" onkeyup="filterGames()" placeholder="نام بازی مورد نظر را تایپ کنید...">
     </div>
   </header>
 
@@ -37,7 +37,7 @@
   <script>
     let currentCategory = 'all';
     let currentPage = 1;
-    const itemsPerPage = 12;
+    const itemsPerPage = 4; // هر صفحه ۴ بازی قرار می‌گیرد تا کلا ۳۰ صفحه بسازد
 
     function renderGames() {
       const grid = document.getElementById('gamesGrid');
@@ -91,7 +91,7 @@
         btn.onclick = () => {
           currentPage = i;
           renderGames();
-          window.scrollTo({ top: 300, behavior: 'smooth' });
+          window.scrollTo({ top: 250, behavior: 'smooth' });
         };
         paginationContainer.appendChild(btn);
       }
