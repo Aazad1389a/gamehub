@@ -233,3 +233,11 @@ body {
   font-size: 1.2rem;
   padding: 40px;
 }
+.ir-btn {
+  background-color: #10b981;
+  color: #fff;
+}
+
+.ir-btn:hover {
+  background-color: #059669;
+}
