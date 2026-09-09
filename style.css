@@ -13,7 +13,7 @@ body {
 
 .hero {
   text-align: center;
-  padding: 50px 20px;
+  padding: 50px 20px 30px;
   background: linear-gradient(180deg, #0f172a 0%, #0b1120 100%);
 }
 
@@ -43,17 +43,36 @@ body {
 .container {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 30px 20px;
+  padding: 20px;
 }
 
-.container h2 {
-  margin-bottom: 25px;
-  font-size: 1.5rem;
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.cat-btn {
+  background-color: #1e293b;
+  color: #cbd5e1;
+  border: 1px solid #334155;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.cat-btn:hover, .cat-btn.active {
+  background-color: #06b6d4;
+  color: #fff;
+  border-color: #06b6d4;
 }
 
 .games-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 20px;
 }
 
@@ -61,32 +80,47 @@ body {
   background-color: #131c31;
   border: 1px solid #1e293b;
   border-radius: 12px;
-  padding: 30px 20px;
+  padding: 0 0 20px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  overflow: hidden;
 }
 
-.card .icon {
-  font-size: 40px;
+.card-img-wrapper {
+  width: 100%;
+  height: 140px;
+  overflow: hidden;
   margin-bottom: 15px;
 }
 
+.game-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.card:hover .game-img {
+  transform: scale(1.05);
+}
+
 .card h3 {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   margin-bottom: 8px;
+  padding: 0 10px;
 }
 
 .platform {
   color: #64748b;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   margin-bottom: 20px;
 }
 
 .btn {
   display: inline-block;
-  width: 100%;
+  width: 85%;
   padding: 10px 0;
   background-color: #06b6d4;
   color: #fff;
@@ -94,16 +128,36 @@ body {
   border-radius: 8px;
   font-weight: bold;
   transition: 0.2s;
+  border: none;
 }
 
 .btn:hover {
   background-color: #0891b2;
 }
 
-/* صفحه جزئیات */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 30px;
+}
+
+.page-btn {
+  background-color: #1e293b;
+  color: #fff;
+  border: 1px solid #334155;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.page-btn.active {
+  background-color: #06b6d4;
+}
+
 .details-page {
   max-width: 600px;
-  margin-top: 40px;
+  margin-top: 30px;
 }
 
 .back-btn {
@@ -115,14 +169,23 @@ body {
 
 .details-card {
   background-color: #131c31;
-  padding: 40px;
+  padding: 30px;
   border-radius: 12px;
   text-align: center;
 }
 
-.big-icon {
-  font-size: 60px;
-  margin-bottom: 15px;
+.banner-wrapper {
+  width: 100%;
+  max-height: 250px;
+  overflow: hidden;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.detail-banner {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .desc {
@@ -131,10 +194,42 @@ body {
   margin: 20px 0;
 }
 
-.google-btn {
-  background-color: #2563eb;
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
 }
 
-.google-btn:hover {
-  background-color: #1d4ed8;
+.steam-btn {
+  background-color: #171a21;
+  border: 1px solid #66c0f4;
+  color: #66c0f4;
+}
+
+.steam-btn:hover {
+  background-color: #66c0f4;
+  color: #171a21;
+}
+
+.direct-btn {
+  background-color: #2a475e;
+  color: #c6d4df;
+}
+
+.google-img-btn {
+  background-color: #ea4335;
+  color: #fff;
+}
+
+.google-img-btn:hover {
+  background-color: #d93025;
+}
+
+.no-result {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 1.2rem;
+  padding: 40px;
 }
